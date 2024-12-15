@@ -1,0 +1,20 @@
+version: '3.9'
+
+services:
+  db.postgres:
+    image: postgres:17-alpine
+    ports:
+      - '${POSTGRES_PORT}:5432'
+    env_file:
+      - ./environments/.env
+    volumes:
+      - ./postgres.db:/var/lib/postgresql/data
+    restart: on-failure
+
+  redis:
+    image: redis:alpine
+    ports:
+      - '${REDIS_PORT}:6379'
+    command: >
+      --requirepass '${REDIS_PASSWORD}: -redispass'
+    restart: on-failure
